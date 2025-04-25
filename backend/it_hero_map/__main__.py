@@ -1,0 +1,33 @@
+from typing import List
+
+import uvicorn
+from fastapi import FastAPI, APIRouter
+
+from it_hero_map.routers import routers
+from it_hero_map.utils.config import config
+
+
+def bind_routers(app: FastAPI, routers: List[APIRouter]) -> None:
+    for router in routers:
+        app.include_router(router)
+
+
+def get_app() -> FastAPI:
+    app: FastAPI = FastAPI(title='It Hero Map Service')
+    bind_routers(app, routers)
+    return app
+
+
+def main() -> None:
+    uvicorn.run(
+        'it_hero_map.__main__:app',
+        host=config.APP_HOST,
+        port=config.APP_PORT,
+        reload=True
+    )
+
+
+app: FastAPI = get_app()
+
+if __name__ == '__main__': 
+    main()

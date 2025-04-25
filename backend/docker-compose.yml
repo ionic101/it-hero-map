@@ -1,0 +1,17 @@
+services:
+  api:
+    container_name: "it-hero-map-api"
+    build: .
+    ports:
+      - "8000:8000"
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    networks:
+      - it-hero-map-network
+
+networks:
+  it-hero-map-network:
+    driver: bridge
